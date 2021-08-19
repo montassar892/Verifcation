@@ -1,0 +1,15 @@
+package com.datasphera.drools.Models;
+
+
+import com.datasphera.drools.Models.Applicant;
+import com.datasphera.drools.Models.Loan;
+
+rule "Apply Loan"
+    when 
+        $app:Applicant(age > 20);
+        $loan:Loan()
+    then 
+      $loan.setApproval(true);
+      update($loan);            
+
+end   
