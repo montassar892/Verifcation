@@ -22,12 +22,11 @@ import org.springframework.web.context.WebApplicationContext;
 @Configuration
 public class DroolsConfiguration {
 
-    @Bean
-    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-    public RuleService getRuleService() throws IOException {
-        RuleService service = new RuleService(kieFileSystem(), kieServices());
-        return service;
-    }
+    // @Bean
+    // public RuleService getRuleService(KieFileSystem kieFileSystem, KieServices
+    // kieServices) {
+    // return new RuleService(kieFileSystem, kieServices);
+    // }
 
     @Bean
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -56,7 +55,8 @@ public class DroolsConfiguration {
         return kieRepository;
     }
 
-    private KieServices kieServices() {
+    @Bean
+    public KieServices kieServices() {
         return KieServices.Factory.get();
     }
 }

@@ -11,18 +11,25 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+// @Configuration
+// @ComponentScan(basePackageClasses = RuleService.class)
 @RequestMapping("/api")
 public class RuleController {
 
     private final Logger log = LoggerFactory.getLogger(RuleController.class);
 
     private final KieContainer kieContainer;
+
     private final RuleService ruleService;
 
     public RuleController(KieContainer kieContainer, RuleService ruleService) {

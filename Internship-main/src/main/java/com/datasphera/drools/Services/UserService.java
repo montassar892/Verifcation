@@ -1,15 +1,16 @@
 package com.datasphera.drools.Services;
 
-import com.datasphera.drools.Configuration.DroolsConfiguration;
-
-import java.util.Enumeration;
 import java.util.HashMap;
 
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieFileSystem;
+import org.springframework.context.annotation.Scope;
+
 import org.springframework.stereotype.Service;
 
 @Service
+@Scope("singleton")
+
 public class UserService {
     HashMap<String, KieFileSystem> Users = new HashMap<String, KieFileSystem>();
 
@@ -38,11 +39,7 @@ public class UserService {
     }
 
     public boolean testUser(String user) {
-        String ch = "";
-        for (String key : Users.keySet()) {
-            ch = " " + ch + key;
-        }
 
-        return ch.contains(user);
+        return Users.containsKey(user);
     }
 }

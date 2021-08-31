@@ -8,6 +8,9 @@ import java.util.UUID;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieFileSystem;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class RuleService {
     List<String> Rules = new ArrayList<String>();
 
