@@ -6,6 +6,7 @@ import com.datasphera.drools.Models.Applicant;
 import com.datasphera.drools.Models.ApplicantLoanDTO;
 import com.datasphera.drools.Models.Loan;
 import com.datasphera.drools.Services.RuleService;
+import com.datasphera.drools.Models.UsersRules;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -38,9 +39,11 @@ public class RuleController {
     }
 
     @PostMapping("rule")
-    public boolean addRule(@RequestBody String rule) {
-        ruleService.addRule(rule);
-        return true;
+    public String addRule(@RequestBody UsersRules u) {
+
+        ruleService.addRule(u.getRule());
+        return u.toString();
+
     }
 
     @PostMapping("run")
