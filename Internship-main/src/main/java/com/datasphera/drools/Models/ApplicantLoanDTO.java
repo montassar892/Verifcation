@@ -3,10 +3,12 @@ package com.datasphera.drools.Models;
 public class ApplicantLoanDTO {
     Applicant applicant;
     Loan loan;
+    String User;
 
-    public ApplicantLoanDTO(Applicant applicant, Loan loan) {
+    public ApplicantLoanDTO(Applicant applicant, Loan loan, String User) {
         this.applicant = applicant;
         this.loan = loan;
+        this.User = User;
     }
 
     public Applicant getApplicant() {
@@ -24,4 +26,13 @@ public class ApplicantLoanDTO {
     public void setLoan(Loan loan) {
         this.loan = loan;
     }
+
+    public String getUser() {
+        return this.User;
+    }
+
+    public void setUser(String User) {
+        this.User = User;
+    }
+
 }

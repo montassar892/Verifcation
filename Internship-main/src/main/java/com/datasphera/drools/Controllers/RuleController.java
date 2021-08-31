@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-// @Configuration
-// @ComponentScan(basePackageClasses = RuleService.class)
 @RequestMapping("/api")
 public class RuleController {
 
@@ -53,6 +51,8 @@ public class RuleController {
         kieSession.insert(applicantLoan.getApplicant());
         log.info("Adding loan: " + applicantLoan.getLoan());
         kieSession.insert(applicantLoan.getLoan());
+        log.info("Adding user:" + applicantLoan.getUser());
+        kieSession.insert(applicantLoan.getUser());
 
         int ruleCount = kieSession.fireAllRules();
         log.info("Executed " + ruleCount + " rules");
@@ -62,6 +62,6 @@ public class RuleController {
         log.info("New loan: " + applicantLoan.getLoan());
         kieSession.insert(applicantLoan.getLoan());
         kieSession.dispose();
-        return new ApplicantLoanDTO(applicantLoan.getApplicant(), applicantLoan.getLoan());
+        return new ApplicantLoanDTO(applicantLoan.getApplicant(), applicantLoan.getLoan(), applicantLoan.getUser());
     }
 }
