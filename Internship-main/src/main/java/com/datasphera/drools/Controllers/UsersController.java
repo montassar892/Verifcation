@@ -1,5 +1,7 @@
 package com.datasphera.drools.Controllers;
 
+import java.util.List;
+
 import com.datasphera.drools.Services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +33,7 @@ public class UsersController {
     }
 
     @GetMapping("ShowUsers")
-    public String getUsers() {
+    public List<String> getUsers() {
         return userService.getUsers();
     }
 

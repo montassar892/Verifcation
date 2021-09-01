@@ -28,10 +28,7 @@ public class Loan {
 
     @Override
     public String toString() {
-        return "{" +
-            " approval='" + approval + "'" +
-            ", amount='" + amount + "'" +
-            "}";
+        return "{" + " approval='" + approval + "'" + ", amount='" + amount + "'" + "}";
     }
 
 }

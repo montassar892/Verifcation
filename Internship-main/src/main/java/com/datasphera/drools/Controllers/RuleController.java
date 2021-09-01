@@ -6,8 +6,14 @@ import com.datasphera.drools.Models.Applicant;
 import com.datasphera.drools.Models.ApplicantLoanDTO;
 import com.datasphera.drools.Models.Loan;
 import com.datasphera.drools.Services.RuleService;
+import com.datasphera.drools.Services.UserService;
 import com.datasphera.drools.Models.UsersRules;
 
+import org.dmg.pmml.True;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieBuilder;
+import org.kie.api.builder.KieFileSystem;
+import org.kie.api.builder.KieModule;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
@@ -26,26 +32,40 @@ import org.springframework.web.bind.annotation.RestController;
 public class RuleController {
 
     private final Logger log = LoggerFactory.getLogger(RuleController.class);
-
-    private final KieContainer kieContainer;
-
+    private UserService userService;
     private final RuleService ruleService;
 
-    public RuleController(KieContainer kieContainer, RuleService ruleService) {
-        this.kieContainer = kieContainer;
+    public RuleController(UserService userService, RuleService ruleService) {
+        this.userService = userService;
         this.ruleService = ruleService;
     }
 
     @PostMapping("rule")
     public String addRule(@RequestBody UsersRules u) {
 
-        ruleService.addRule(u.getRule());
+        ruleService.addRule(u.getRule(), u.getUser());
         return u.toString();
 
     }
 
-    @PostMapping("run")
-    public ApplicantLoanDTO addRule(@RequestBody ApplicantLoanDTO applicantLoan) {
+    @PostMapping("run") /* */
+    public ApplicantLoanDTO fireRule(@RequestBody ApplicantLoanDTO applicantLoan) {
+        KieServices kieServices = KieServices.Factory.get();
+        KieFileSystem kieFileSystem = null;
+        if (userService.testUser(applicantLoan.getUser()) == true) {
+            kieFileSystem = userService.getKieFileSystem(applicantLoan.getUser());
+        } else {
+            // kieFileSystem = kieServices.newKieFileSystem();
+            userService.addUser(applicantLoan.getUser());
+            kieFileSystem = userService.getKieFileSystem(applicantLoan.getUser());
+
+        }
+
+        KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
+        kb.buildAll();
+        KieModule kieModule = kb.getKieModule();
+        KieContainer kieContainer = kieServices.newKieContainer(kieModule.getReleaseId());
+
         KieSession kieSession = kieContainer.newKieSession();
         log.info("Adding applicant: " + applicantLoan.getApplicant());
         kieSession.insert(applicantLoan.getApplicant());

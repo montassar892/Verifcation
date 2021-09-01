@@ -1,9 +1,9 @@
 package com.datasphera.drools.Models;
 
 public class ApplicantLoanDTO {
-    Applicant applicant;
-    Loan loan;
-    String User;
+    public Applicant applicant;
+    public Loan loan;
+    public String User;
 
     public ApplicantLoanDTO(Applicant applicant, Loan loan, String User) {
         this.applicant = applicant;

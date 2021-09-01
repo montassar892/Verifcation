@@ -1,7 +1,8 @@
 package com.datasphera.drools.Services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieFileSystem;
 import org.springframework.context.annotation.Scope;
@@ -12,13 +13,17 @@ import org.springframework.stereotype.Service;
 @Scope("singleton")
 
 public class UserService {
-    HashMap<String, KieFileSystem> Users = new HashMap<String, KieFileSystem>();
+    private HashMap<String, KieFileSystem> Users = new HashMap<String, KieFileSystem>();
 
     public void addUser(String user) {
         // create the kfs instantanly
-
-        KieFileSystem kfs = kieServices().newKieFileSystem();
-        Users.put(user, kfs);
+        KieFileSystem kfs = null;
+        if (testUser(user) == false) {
+            kfs = kieServices().newKieFileSystem();
+            Users.put(user, kfs);
+        } else {
+            System.out.println("User exists");
+        }
     }
 
     public KieServices kieServices() {
@@ -30,12 +35,18 @@ public class UserService {
 
     }
 
-    public String getUsers() {
-        String ch = "";
+    public List<String> getUsers() {
+        List<String> l = new ArrayList<String>();
         for (String key : Users.keySet()) {
-            ch = " " + ch + key;
+            l.add(key);
         }
-        return ch;
+        return l;
+
+        // String ch = "";
+        // for (String key : Users.keySet()) {
+        // ch = " " + ch + key;
+        // }
+        // return ch;
     }
 
     public boolean testUser(String user) {

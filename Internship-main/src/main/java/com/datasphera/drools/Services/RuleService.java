@@ -13,16 +13,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class RuleService {
     List<String> Rules = new ArrayList<String>();
-
-    private final KieFileSystem kieFileSystem;
+    private UserService userService;
     private final KieServices kieServices;
 
-    public RuleService(KieFileSystem kieFileSystem, KieServices kieServices) {
-        this.kieFileSystem = kieFileSystem;
+    public RuleService(UserService userService, KieServices kieServices) {
+        this.userService = userService;
         this.kieServices = kieServices;
     }
 
-    public void addRule(String rule) {
+    public void addRule(String rule, String user) {
+        KieFileSystem kieFileSystem = null;
+        Rules.add(rule);
+        if (userService.testUser(user) == false) {
+            kieFileSystem = KieServices.Factory.get().newKieFileSystem();
+        } else {
+            kieFileSystem = userService.getKieFileSystem(user);
+        }
         Rules.add(rule);
         kieFileSystem.write("src/main/resources/" + UUID.randomUUID().toString() + ".drl",
                 kieServices.getResources().newReaderResource(new StringReader(rule)));
