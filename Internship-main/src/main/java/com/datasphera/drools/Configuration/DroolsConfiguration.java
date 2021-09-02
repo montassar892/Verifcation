@@ -51,8 +51,8 @@ public class DroolsConfiguration {
     // return kieRepository;
     // }
 
-    // @Bean
-    // public KieServices kieServices() {
-    // return KieServices.Factory.get();
-    // }
+    @Bean
+    public KieServices kieServices() {
+        return KieServices.Factory.get();
+    }
 }

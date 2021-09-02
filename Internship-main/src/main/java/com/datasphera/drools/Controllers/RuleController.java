@@ -9,7 +9,7 @@ import com.datasphera.drools.Services.RuleService;
 import com.datasphera.drools.Services.UserService;
 import com.datasphera.drools.Models.UsersRules;
 
-import org.dmg.pmml.True;
+//import org.dmg.pmml.True;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
@@ -48,14 +48,13 @@ public class RuleController {
 
     }
 
-    @PostMapping("run") /* */
+    @PostMapping("run")
     public ApplicantLoanDTO fireRule(@RequestBody ApplicantLoanDTO applicantLoan) {
         KieServices kieServices = KieServices.Factory.get();
         KieFileSystem kieFileSystem = null;
         if (userService.testUser(applicantLoan.getUser()) == true) {
             kieFileSystem = userService.getKieFileSystem(applicantLoan.getUser());
         } else {
-            // kieFileSystem = kieServices.newKieFileSystem();
             userService.addUser(applicantLoan.getUser());
             kieFileSystem = userService.getKieFileSystem(applicantLoan.getUser());
 
@@ -81,6 +80,7 @@ public class RuleController {
         kieSession.insert(applicantLoan.getApplicant());
         log.info("New loan: " + applicantLoan.getLoan());
         kieSession.insert(applicantLoan.getLoan());
+
         kieSession.dispose();
         return new ApplicantLoanDTO(applicantLoan.getApplicant(), applicantLoan.getLoan(), applicantLoan.getUser());
     }
